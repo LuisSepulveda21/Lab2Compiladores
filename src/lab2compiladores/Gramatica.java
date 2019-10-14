@@ -339,7 +339,7 @@ public class Gramatica {
     int col = this.Terminales.size();
     
     String [][] M = new String[filas+1][col+1]; 
-    M[0][0] = "NoTerm/Term";
+    M[0][0] = "NT/T";
     
         for (int i = 0; i < col; i++) {
             M[0][i+1]= this.Terminales.get(i);

@@ -109,7 +109,6 @@ public class UI extends javax.swing.JFrame {
         jLabel2.setText("Cadena a verificar:");
 
         ProdLabel.setFont(new java.awt.Font("Open Sans", 1, 13)); // NOI18N
-        ProdLabel.setText("jLabel3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
