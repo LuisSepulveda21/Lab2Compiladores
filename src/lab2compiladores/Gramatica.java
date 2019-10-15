@@ -9,6 +9,7 @@ import java.awt.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,6 +26,7 @@ public class Gramatica {
     HashMap<String,ArrayList> primeros;
     HashMap<String,ArrayList> siguientes;
     String[][] M;
+    int menorCad;
     
     public Gramatica(ArrayList<String> producciones){
         
@@ -86,8 +88,12 @@ public class Gramatica {
                 if (!TieneRecursividad(GUnica).isEmpty()) {
                     GUnica = new ArrayList<>(EliminarRecursividad(GUnica, TieneRecursividad(GUnica)));
                 }
-                //Factoriza
                 
+                System.out.println("GUNICA SIN REC "+GUnica);
+                //Factoriza
+                while(!factorizable(GUnica).isEmpty()){
+                    GUnica= new ArrayList<>(factorizar(factorizable(GUnica),GUnica));
+                }
                 
                 //Primeros y siguientes iniciales
                 PrimYSgteInicial(GUnica);       
@@ -112,30 +118,34 @@ public class Gramatica {
     }
 
     
+    
     private void PrimYSgteInicial(ArrayList<String> GUnica){
-        ArrayList<String> primerosA = new ArrayList();
-        ArrayList<String> primerosAP = new ArrayList();
+        ArrayList<String> PriSigIniciales = new ArrayList();
         
-        String comprobacionP = GUnica.get(0).substring(0,1);
-        String NoTerminal="";
+        PriSigIniciales.add(GUnica.get(0).substring(0, 1));
+        for (int i = 0; i < GUnica.size(); i++) {
+            for (int j = 0; j < GUnica.size(); j++) {
+                if (!GUnica.get(i).substring(0, 1).equals(GUnica.get(j).substring(0, 1))) {
+                    PriSigIniciales.add(GUnica.get(i).substring(0, 1));
+                }
+            }
+        }  
+        Set<String> set = new HashSet<>(PriSigIniciales);
+        PriSigIniciales.clear();
+        PriSigIniciales.addAll(set);
+        System.out.println("nuevos no t para prim y sig: " + PriSigIniciales);
+        
+        for (int i = 0; i < PriSigIniciales.size(); i++) {
+            this.primeros.put(PriSigIniciales.get(i), new ArrayList<>());
+            this.siguientes.put(PriSigIniciales.get(i), new ArrayList<>());
+        }
 
         //llenado de primeros de A 
         for (int i = 0; i < GUnica.size(); i++) {
-                if (comprobacionP.equals(GUnica.get(i).substring(0,1))) {
-                primerosA.add(GUnica.get(i).substring(3,4));
-                }else{
-                primerosAP.add(GUnica.get(i).substring(3,4));
-                NoTerminal = GUnica.get(i).substring(0, 1);
-                }
-    
+            System.out.println(GUnica.get(i));
+            this.primeros.get(GUnica.get(i).substring(0, 1)).add(GUnica.get(i).substring(3, 4));
         }
-        this.primeros.put(GUnica.get(0).substring(0,1), primerosA);
-        this.siguientes.put(GUnica.get(0).substring(0,1), new ArrayList<>());
-        
-        if (!primerosAP.isEmpty()) {
-            this.primeros.put(NoTerminal, primerosAP);
-            this.siguientes.put(NoTerminal, new ArrayList<>());
-        }
+
     }
     
     
@@ -182,10 +192,7 @@ public class Gramatica {
         
     }
     
-    private void Factorizar(){
-    
-    }
-    
+
     private void primeros(){
         System.out.println("primeros originales");
         this.primeros.forEach((k,v) -> System.out.println("Key: " + k + ": Value: " + v));
@@ -200,6 +207,19 @@ public class Gramatica {
                     primero.getValue().remove(i);
                     ArrayList PrimerosN = new ArrayList(primero.getValue());
                     PrimerosN.addAll(this.primeros.get(NoTerminal));
+                    
+              /*      String compvacio = "";
+                    
+                    if (this.primeros.get(NoTerminal).contains("&")) {
+                        compvacio = "&";
+                    }
+                    
+                    while(compvacio.equals("&")){
+                        if (this.primeros.containsKey(i)) {
+                            
+                        }
+                    } */
+                    
                     this.primeros.replace(primero.getKey(), PrimerosN);
                     flag = false;
                 }
@@ -234,6 +254,7 @@ public class Gramatica {
         this.siguientes.forEach((k,v) -> System.out.println("Key: " + k + ": Value: " + v));
         
         //agrego $ al inicial
+        System.out.println("ahskhjasjk"+this.NoTerminales);
         this.siguientes.get(this.NoTerminales.get(0)).add("$");
         this.Terminales.add("$");
         
@@ -381,9 +402,127 @@ public class Gramatica {
         
 
        return M; 
-        
-    
+
     }
+    
+    private HashMap<Integer, ArrayList<Integer>> factorizable(ArrayList<String> GUnica) {
+        //la llave sera el menor de los indices y el array que producciones tienen iguales
+        HashMap<Integer, ArrayList<Integer>> IndIguales = new HashMap();
+
+        //me permite saber la mnenor ocurrencia
+        int menornum = 100;
+        int menornum2 = 0;
+        for (int i = 0; i < GUnica.size(); i++) {
+            ArrayList<Integer> Inicial = new ArrayList(); Inicial.add(i);
+            
+            //la key tendra la menor ocurrencia y el array los indices de las ocurrencias
+            IndIguales.put(menornum, Inicial);
+            String produccion = GUnica.get(i);
+            int iProduce = produccion.indexOf(">");
+            String cadenaI = produccion.substring(iProduce + 1, GUnica.get(i).length());
+
+            if (!cadenaI.equals("&")) {  
+            for (int j = 0; j < GUnica.size(); j++) {
+                String produccion2 = GUnica.get(j);
+                if (produccion.equals(produccion2) || !produccion.substring(0,1).equals(produccion2.substring(0, 1))) {
+                    continue;
+                }
+                
+                menornum2 = 0;
+                String cadenaJ = produccion2.substring(iProduce + 1, produccion2.length());
+                
+                //quien define la longitud
+                int longitud;
+                if (cadenaI.length()<=cadenaJ.length()) {
+                    longitud = cadenaI.length();
+                }else{
+                    longitud = cadenaJ.length();
+                }
+                
+                for (int k = 0; k < longitud; k++) {
+                    boolean flag = true;
+                    if (cadenaI.substring(k, k + 1).equals(cadenaJ.substring(k, k + 1))) {
+                        menornum2++;
+                        flag = false;
+                    }
+                    //debe encontrar en cadena, ej: ababa igual ababa y no: ababa igual bbaaa, encontraria en 2,3 y 4 pero no en cadena
+                    if (flag) {
+                        break;
+                    }
+                }
+                //añade donde encontro la ocurrencia
+                if (menornum2>0) {
+                    IndIguales.get(menornum).add(j);
+                }
+                
+                //menornum2 me saca los que encontro en cadena
+                if (menornum2<=menornum && menornum2!=0) {  
+                    IndIguales.put(menornum2, IndIguales.remove(menornum));
+                    menornum=menornum2;
+                    menorCad  = j;
+                    System.out.println(menorCad);
+                    System.out.println("j"+j);
+                    System.out.println(IndIguales);
+                }
+
+            }
+        }
+            if (menornum!=100) {
+                if (GUnica.get(i).length()<GUnica.get(menorCad).length()) {
+                    menorCad = i;
+                }
+                return IndIguales;
+            }
+        }
+        IndIguales.clear();
+        return IndIguales;
+    }
+    
+    
+    private ArrayList<String> factorizar(HashMap<Integer, ArrayList<Integer>>IndIguales, ArrayList<String>GUnica ){
+        /*"A'"*/   String NoTerminalNuevo = Agregar_NoTerminal();
+        Iterator iter = IndIguales.entrySet().iterator();
+        Map.Entry<Integer, ArrayList<Integer>> entry = (Map.Entry<Integer, ArrayList<Integer>>) iter.next();
+        
+        String cadenaN = new String();
+        boolean maniq = false;
+        String cadenaI="";
+        
+        System.out.println("ARRAY ORIGINAL "+ GUnica);
+        
+        for (int i = 0; i < entry.getValue().size(); i++) {
+            int num_c = entry.getValue().get(i);
+            String cadena_o = GUnica.get(num_c);
+            int start = entry.getKey();
+            if (num_c == menorCad) {
+                cadenaI = cadena_o.substring(0,3+start)+NoTerminalNuevo;
+                if (cadena_o.substring(0,3+start).length()==cadena_o.length()) {
+                    maniq = true;
+                }else{
+                    cadenaN = NoTerminalNuevo+"->"+cadena_o.substring(3+start,cadena_o.length());
+                    GUnica.add(cadenaN);
+                }
+                continue;
+            }
+            System.out.println("num_c " + num_c + "cadena " + cadena_o);
+            cadenaN = NoTerminalNuevo+"->"+cadena_o.substring(3+start,cadena_o.length());
+            GUnica.set(num_c, cadenaN);
+        }
+        if (maniq) {
+            GUnica.add(NoTerminalNuevo+"->&");
+        }
+        
+        GUnica.remove(menorCad);
+        ArrayList<String> nGUnica = new ArrayList();
+        nGUnica.add(cadenaI);
+        nGUnica.addAll(GUnica);
+        
+        this.NoTerminales.add(NoTerminalNuevo);
+        System.out.println("NUEVO ARRAY: " + nGUnica);
+        
+        return nGUnica;
+    }
+
     
 
 }

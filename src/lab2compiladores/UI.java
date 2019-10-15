@@ -199,6 +199,7 @@ public class UI extends javax.swing.JFrame {
              MTableModel.setColumnCount(0); 
              Prim_Area.setText("");
              Sgte_Area.setText("");
+             GraSinV_Area.setText("");
              String [][] M = gramatica.M;
              ArrayList<String> elementos = new ArrayList();
              
