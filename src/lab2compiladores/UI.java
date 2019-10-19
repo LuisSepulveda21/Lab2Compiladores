@@ -27,6 +27,7 @@ public class UI extends javax.swing.JFrame {
     /**
      * Creates new form UI
      */
+    Gramatica gramatica;
     public UI() {
         initComponents();
         MTable.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -54,8 +55,9 @@ public class UI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         EscogerG_Button = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        VerificarTxtField = new javax.swing.JTextField();
         ProdLabel = new javax.swing.JLabel();
+        VerifyButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -110,6 +112,13 @@ public class UI extends javax.swing.JFrame {
 
         ProdLabel.setFont(new java.awt.Font("Open Sans", 1, 13)); // NOI18N
 
+        VerifyButton.setText("Verificar");
+        VerifyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerifyButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,7 +134,9 @@ public class UI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(EscogerG_Button))
                             .addComponent(jLabel2)
-                            .addComponent(jTextField1)))
+                            .addComponent(VerificarTxtField))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(VerifyButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addComponent(ProdLabel)))
@@ -152,7 +163,9 @@ public class UI extends javax.swing.JFrame {
                         .addGap(32, 32, 32)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(VerificarTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(VerifyButton))
                         .addGap(18, 18, 18)
                         .addComponent(ProdLabel)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -182,7 +195,7 @@ public class UI extends javax.swing.JFrame {
             String line;
             ArrayList<String> producciones = new ArrayList();
              while ((line = br.readLine()) != null) {
-                     System.out.println(line);
+                     //System.out.println(line);
                      producciones.add(line);
              }
              
@@ -192,7 +205,7 @@ public class UI extends javax.swing.JFrame {
                 }
             }
              
-             Gramatica gramatica = new Gramatica(producciones);
+             gramatica = new Gramatica(producciones);
    
              DefaultTableModel MTableModel = (DefaultTableModel) MTable.getModel();
              MTableModel.setRowCount(0);
@@ -247,6 +260,14 @@ public class UI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_EscogerG_ButtonActionPerformed
 
+    private void VerifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerifyButtonActionPerformed
+        try {
+            gramatica.reconocerG(VerificarTxtField.getText());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_VerifyButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -290,6 +311,8 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JLabel ProdLabel;
     private javax.swing.JTable SegTable;
     private javax.swing.JTextArea Sgte_Area;
+    private javax.swing.JTextField VerificarTxtField;
+    private javax.swing.JButton VerifyButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -297,6 +320,5 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

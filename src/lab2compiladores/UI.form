@@ -35,8 +35,10 @@
                               <Component id="EscogerG_Button" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="VerificarTxtField" alignment="0" max="32767" attributes="0"/>
                       </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="VerifyButton" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
@@ -71,7 +73,10 @@
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jTextField1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="VerificarTxtField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="VerifyButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="ProdLabel" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -199,7 +204,7 @@
         <Property name="text" type="java.lang.String" value="Cadena a verificar:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="VerificarTxtField">
     </Component>
     <Component class="javax.swing.JLabel" name="ProdLabel">
       <Properties>
@@ -207,6 +212,14 @@
           <Font name="Open Sans" size="13" style="1"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="VerifyButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Verificar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VerifyButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

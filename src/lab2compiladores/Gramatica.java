@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 /**
@@ -60,8 +61,8 @@ public class Gramatica {
         }
         
         
-        System.out.println(this.NoTerminales);
-        System.out.println(this.Terminales);
+        //System.out.println(this.NoTerminales);
+        //System.out.println(this.Terminales);
         this.ProdSinV = EliminarVicios();
         primeros();
         siguientes(this.ProdSinV);
@@ -86,13 +87,13 @@ public class Gramatica {
                     }
                 }
                 
-                System.out.println("GUNICA"+GUnica);
+                //System.out.println("GUNICA"+GUnica);
                 //Elimina recursividad
                 if (!TieneRecursividad(GUnica).isEmpty()) {
                     GUnica = new ArrayList<>(EliminarRecursividad(GUnica, TieneRecursividad(GUnica)));
                 }
                 
-                System.out.println("GUNICA SIN REC "+GUnica);
+                //System.out.println("GUNICA SIN REC "+GUnica);
                 //Factoriza
                 while(!factorizable(GUnica).isEmpty()){
                     GUnica= new ArrayList<>(factorizar(factorizable(GUnica),GUnica));
@@ -105,7 +106,7 @@ public class Gramatica {
             }
 
         }
-        System.out.println(GSV);
+        //System.out.println(GSV);
         return GSV;
 
     }
@@ -135,7 +136,7 @@ public class Gramatica {
         }  
           PriSigIniciales = removeDuplicates(PriSigIniciales); 
         
-        System.out.println("nuevos no t para prim y sig: " + PriSigIniciales);
+        //System.out.println("nuevos no t para prim y sig: " + PriSigIniciales);
 
         
         for (int i = 0; i < PriSigIniciales.size(); i++) {
@@ -145,7 +146,7 @@ public class Gramatica {
 
         //llenado de primeros de A 
         for (int i = 0; i < GUnica.size(); i++) {
-            System.out.println(GUnica.get(i));
+            //System.out.println(GUnica.get(i));
             this.primeros.get(GUnica.get(i).substring(0, 1)).add(GUnica.get(i).substring(3, 4));
         }
 
@@ -207,7 +208,7 @@ public class Gramatica {
     
 
     private void primeros(){
-        System.out.println("primeros originales");
+        //System.out.println("primeros originales");
         this.primeros.forEach((k,v) -> System.out.println("Key: " + k + ": Value: " + v));
         
         for (Map.Entry<String, ArrayList> primero : this.primeros.entrySet()) {
@@ -247,8 +248,8 @@ public class Gramatica {
         }
         
         
-        System.out.println("nuevos primeros");
-        this.primeros.forEach((k,v) -> System.out.println("Key: " + k + ": Value: " + v));
+        //System.out.println("nuevos primeros");
+        //this.primeros.forEach((k,v) -> System.out.println("Key: " + k + ": Value: " + v));
     }
     
     
@@ -263,11 +264,11 @@ public class Gramatica {
     
     
     private void siguientes(ArrayList<String> producciones){
-        System.out.println("siguientes originales");
-        this.siguientes.forEach((k,v) -> System.out.println("Key: " + k + ": Value: " + v));
+        //System.out.println("siguientes originales");
+        //this.siguientes.forEach((k,v) -> System.out.println("Key: " + k + ": Value: " + v));
         
         //agrego $ al inicial
-        System.out.println("ahskhjasjk"+this.NoTerminales);
+        //System.out.println("ahskhjasjk"+this.NoTerminales);
         this.siguientes.get(this.NoTerminales.get(0)).add("$");
         this.Terminales.add("$");
         
@@ -306,9 +307,9 @@ public class Gramatica {
             }
         }
         
-        System.out.println("");
-        this.siguientes.forEach((k, v) -> System.out.println("Key: " + k + ": Value: " + v));
-        System.out.println("");
+        //System.out.println("");
+        //this.siguientes.forEach((k, v) -> System.out.println("Key: " + k + ": Value: " + v));
+        //System.out.println("");
         
         while (checksiguiente()) {
             for (Map.Entry<String, ArrayList> siguiente : this.siguientes.entrySet()) {
@@ -347,9 +348,9 @@ public class Gramatica {
             }
         }
         
-        System.out.println("nuevos siguientes");
-        this.siguientes.forEach((k, v) -> System.out.println("Key: " + k + ": Value: " + v));
-        System.out.println("");
+        //System.out.println("nuevos siguientes");
+        //this.siguientes.forEach((k, v) -> System.out.println("Key: " + k + ": Value: " + v));
+        //System.out.println("");
 
     }
     
@@ -397,7 +398,7 @@ public class Gramatica {
                 String T = M[0][j+1];
                 if (this.primeros.get(NT).contains(T)) {
                     for (String produccion: this.ProdSinV) {
-                        System.out.println("prod de: "+produccion + " Noter " + NT + " ter " + T);
+                        //System.out.println("prod de: "+produccion + " Noter " + NT + " ter " + T);
                         if (produccion.substring(3, 4).equals(T) && produccion.substring(0,1).equals(NT)) {   
                              M[i+1][j+1] = produccion;
                         }else{
@@ -419,12 +420,12 @@ public class Gramatica {
             }
         }
    
-           for (int i = 0; i < filas+1; i++) {
+           /*for (int i = 0; i < filas+1; i++) {
             for (int j = 0; j < col+1; j++) {
                 System.out.print(M[i][j] + "|");
             }
             System.out.println("");
-        }
+        }*/
         
 
        return M; 
@@ -486,9 +487,9 @@ public class Gramatica {
                     IndIguales.put(menornum2, IndIguales.remove(menornum));
                     menornum=menornum2;
                     menorCad  = j;
-                    System.out.println(menorCad);
-                    System.out.println("j"+j);
-                    System.out.println(IndIguales);
+                    //System.out.println(menorCad);
+                    //System.out.println("j"+j);
+                    //System.out.println(IndIguales);
                 }
 
             }
@@ -514,7 +515,7 @@ public class Gramatica {
         boolean maniq = false;
         String cadenaI="";
         
-        System.out.println("ARRAY ORIGINAL "+ GUnica);
+        //System.out.println("ARRAY ORIGINAL "+ GUnica);
         
         for (int i = 0; i < entry.getValue().size(); i++) {
             int num_c = entry.getValue().get(i);
@@ -530,7 +531,7 @@ public class Gramatica {
                 }
                 continue;
             }
-            System.out.println("num_c " + num_c + "cadena " + cadena_o);
+            //System.out.println("num_c " + num_c + "cadena " + cadena_o);
             cadenaN = NoTerminalNuevo+"->"+cadena_o.substring(3+start,cadena_o.length());
             GUnica.set(num_c, cadenaN);
         }
@@ -544,10 +545,93 @@ public class Gramatica {
         nGUnica.addAll(GUnica);
         
         this.NoTerminales.add(NoTerminalNuevo);
-        System.out.println("NUEVO ARRAY: " + nGUnica);
+        //System.out.println("NUEVO ARRAY: " + nGUnica);
         
         return nGUnica;
     }
+    
+    public void reconocerG(String cadena){
+        cadena = cadena+"$";
+        char[] cad = cadena.toCharArray();
+        int index = 0;
+        
+        Stack<String> pila = new Stack();
+        pila.push("$");
+        pila.push(this.NoTerminales.get(0));
+        
+        do {
+            //X es el simbolo de la cima de la pila
+            System.out.println(pila);
+            String X = pila.peek().toString();
+            if (this.Terminales.contains(X) || X.equals("$")) {
+                if (X.equals(String.valueOf(cad[index]))) {
+                    //extraer X
+                    pila.pop();
+                    //avanzar a
+                    index++;
+                } else {
+                    System.out.println("Cadena no aceptada");
+                    break;
+                }
+            } else {
+                //X es un no terminal
+                //hallo M[X,a]
+                int indx=0;
+                int inda=0;
+                boolean flag = true;
+                
+                int indice = 1;
+                while(flag && indice<=this.NoTerminales.size()){
+                    if (this.M[indice][0].equals(X)) {
+                        //System.out.println(this.M[indice][0]);
+                        flag = false;
+                        indx = indice;
+                    }
+                    indice++;
+                }
+                if(flag){
+                    System.out.println("Cadena no aceptada");
+                    break;
+                }
+                flag = true;        
+                indice = 1;
+                while(flag && indice<=this.Terminales.size() ){
+                    if (this.M[0][indice].equals(String.valueOf(cad[index]))) {
+                        //System.out.println(this.M[0][indice]);
+                        flag = false;
+                        inda = indice;
+                    }
+                    indice++;
+                }
+                if(flag){
+                    System.out.println("Cadena no aceptada");
+                    break;
+                }
+                
+                String CadM = this.M[indx][inda];
+                //System.out.println(CadM);
+                
+                if (!CadM.isEmpty()) {
+                    pila.pop();
+                    int len = CadM.length();
+                    String cadenapila = CadM.substring(3,len);
+                    int RevIndex = cadenapila.length()-1;
+                    char[] cadrev = cadenapila.toCharArray();
+                    while(RevIndex>=0){
+                    pila.push(String.valueOf(cadrev[RevIndex]));
+                    RevIndex--;
+                    }
+                }
+                if (pila.peek().equals("&")) {
+                    pila.pop();
+                }
+            }
+        } while (!pila.peek().equals("$"));
+        
+        System.out.println("Cadena aceptada");
+  
+    }
+    
 
     
 
