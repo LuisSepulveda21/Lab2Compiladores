@@ -7,11 +7,14 @@ package lab2compiladores;
 
 import java.awt.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -23,8 +26,8 @@ public class Gramatica {
     ArrayList<String> ProdSinV;
     ArrayList<String> Terminales;
     ArrayList<String> NoTerminales;
-    HashMap<String,ArrayList> primeros;
-    HashMap<String,ArrayList> siguientes;
+    LinkedHashMap<String,ArrayList> primeros;
+    LinkedHashMap<String,ArrayList> siguientes;
     String[][] M;
     int menorCad;
     
@@ -32,8 +35,8 @@ public class Gramatica {
         
         this.NoTerminales = new ArrayList<>();
         this.Terminales = new ArrayList<>();
-        this.primeros = new HashMap();
-        this.siguientes= new HashMap();
+        this.primeros = new LinkedHashMap();
+        this.siguientes= new LinkedHashMap();
         this.producciones=producciones;
         
     
@@ -130,10 +133,10 @@ public class Gramatica {
                 }
             }
         }  
-        Set<String> set = new HashSet<>(PriSigIniciales);
-        PriSigIniciales.clear();
-        PriSigIniciales.addAll(set);
+          PriSigIniciales = removeDuplicates(PriSigIniciales); 
+        
         System.out.println("nuevos no t para prim y sig: " + PriSigIniciales);
+
         
         for (int i = 0; i < PriSigIniciales.size(); i++) {
             this.primeros.put(PriSigIniciales.get(i), new ArrayList<>());
@@ -148,7 +151,17 @@ public class Gramatica {
 
     }
     
-    
+     public static <String> ArrayList<String> removeDuplicates(ArrayList<String> list) 
+    { 
+        ArrayList<String> newList = new ArrayList<String>(); 
+        for (String element : list) { 
+            if (!newList.contains(element)) { 
+                newList.add(element); 
+            } 
+        } 
+
+        return newList; 
+    } 
     
     
     private ArrayList<String> EliminarRecursividad(ArrayList<String> GUnica, ArrayList<Integer> IndicesR){
@@ -356,19 +369,25 @@ public class Gramatica {
     
     private String [][] crearTablaM(){
      
-    int filas = this.NoTerminales.size();
+    int filas = this.primeros.size();
     int col = this.Terminales.size();
     
     String [][] M = new String[filas+1][col+1]; 
     M[0][0] = "NT/T";
     
+ 
         for (int i = 0; i < col; i++) {
             M[0][i+1]= this.Terminales.get(i);
         }
     
-        for (int i = 0; i < filas; i++) {
-            M[i+1][0] = this.NoTerminales.get(i);
+        int w = 0;
+        for (Map.Entry<String, ArrayList> primero : this.primeros.entrySet()) {
+            M[w+1][0] = primero.getKey();
+            w++;
         }
+    
+        
+        
         
      
         //Añade primeros y siguiente(&)
@@ -378,8 +397,15 @@ public class Gramatica {
                 String T = M[0][j+1];
                 if (this.primeros.get(NT).contains(T)) {
                     for (String produccion: this.ProdSinV) {
-                        if (produccion.substring(3, 4).equals(T) && produccion.substring(0,1).equals(NT)) {
+                        System.out.println("prod de: "+produccion + " Noter " + NT + " ter " + T);
+                        if (produccion.substring(3, 4).equals(T) && produccion.substring(0,1).equals(NT)) {   
                              M[i+1][j+1] = produccion;
+                        }else{
+                            if(this.NoTerminales.contains(produccion.substring(3, 4)) && produccion.substring(0,1).equals(NT)){
+                                if (this.primeros.get(produccion.substring(3, 4)).contains(T)) {
+                                    M[i+1][j+1] = produccion;
+                                }
+                            }
                         }
                     }
                 }
