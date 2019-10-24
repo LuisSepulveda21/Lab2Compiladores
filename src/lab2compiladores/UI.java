@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,6 +29,7 @@ public class UI extends javax.swing.JFrame {
      * Creates new form UI
      */
     Gramatica gramatica;
+
     public UI() {
         initComponents();
         MTable.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -58,6 +60,11 @@ public class UI extends javax.swing.JFrame {
         VerificarTxtField = new javax.swing.JTextField();
         ProdLabel = new javax.swing.JLabel();
         VerifyButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,19 +95,18 @@ public class UI extends javax.swing.JFrame {
 
         SegTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Pila", "Entrada", "Salida"
             }
         ));
         jScrollPane5.setViewportView(SegTable);
 
+        jLabel1.setFont(new java.awt.Font("Gadugi", 1, 15)); // NOI18N
         jLabel1.setText("Gramatica:");
 
+        EscogerG_Button.setFont(new java.awt.Font("Gadugi", 1, 15)); // NOI18N
         EscogerG_Button.setText("Adjuntar gramatica");
         EscogerG_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,10 +114,12 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Gadugi", 1, 15)); // NOI18N
         jLabel2.setText("Cadena a verificar:");
 
         ProdLabel.setFont(new java.awt.Font("Open Sans", 1, 13)); // NOI18N
 
+        VerifyButton.setFont(new java.awt.Font("Gadugi", 1, 13)); // NOI18N
         VerifyButton.setText("Verificar");
         VerifyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,65 +127,109 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Gadugi", 1, 24)); // NOI18N
+        jLabel3.setText("Tabla M");
+
+        jLabel4.setFont(new java.awt.Font("Gadugi", 1, 24)); // NOI18N
+        jLabel4.setText("Gramatica sin vicios");
+
+        jLabel5.setFont(new java.awt.Font("Gadugi", 1, 24)); // NOI18N
+        jLabel5.setText("Primeros");
+
+        jLabel6.setFont(new java.awt.Font("Gadugi", 1, 24)); // NOI18N
+        jLabel6.setText("Siguientes");
+
+        jLabel7.setFont(new java.awt.Font("Gadugi", 1, 24)); // NOI18N
+        jLabel7.setText("Tabla de análisis sintáctico descendente ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(VerificarTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(VerifyButton))
+                            .addComponent(jLabel2)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(EscogerG_Button))
-                            .addComponent(jLabel2)
-                            .addComponent(VerificarTxtField))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(VerifyButton))
+                                .addGap(30, 30, 30)
+                                .addComponent(EscogerG_Button))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(46, 46, 46)
-                        .addComponent(ProdLabel)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)
-                    .addComponent(jScrollPane5))
+                        .addComponent(ProdLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addComponent(jLabel4)
+                        .addGap(357, 357, 357)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)
+                            .addComponent(jScrollPane5))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(114, 114, 114)
+                .addComponent(jLabel5)
+                .addGap(262, 262, 262)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addGap(107, 107, 107))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(EscogerG_Button))
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(VerificarTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(VerifyButton))
+                        .addGap(33, 33, 33)
+                        .addComponent(ProdLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(ProdLabel)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7)))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3))
-                .addGap(13, 13, 13))
+                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -187,84 +239,94 @@ public class UI extends javax.swing.JFrame {
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         File archivo = chooser.getSelectedFile();
-        try {
-            FileReader fr = new FileReader(archivo);
-            BufferedReader br = new BufferedReader(fr);
+        if (archivo == null) {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun archivo");
+        } else {
+            try {
+                FileReader fr = new FileReader(archivo);
+                BufferedReader br = new BufferedReader(fr);
 
-            //lectura de producciones
-            String line;
-            ArrayList<String> producciones = new ArrayList();
-             while ((line = br.readLine()) != null) {
-                     //System.out.println(line);
-                     producciones.add(line);
-             }
-             
-             for (String produccion : producciones) {
-                if (produccion.length() != 3) {
-                    produccion.replace("&", "");
+                //lectura de producciones
+                String line;
+                ArrayList<String> producciones = new ArrayList();
+                while ((line = br.readLine()) != null) {
+                    //System.out.println(line);
+                    producciones.add(line);
                 }
-            }
-             
-             gramatica = new Gramatica(producciones);
-   
-             DefaultTableModel MTableModel = (DefaultTableModel) MTable.getModel();
-             MTableModel.setRowCount(0);
-             MTableModel.setColumnCount(0); 
-             Prim_Area.setText("");
-             Sgte_Area.setText("");
-             GraSinV_Area.setText("");
-             String [][] M = gramatica.M;
-             ArrayList<String> elementos = new ArrayList();
-             
-             String prod_original =  "<html>Producciones originales:";
-             for (int i = 0; i < gramatica.producciones.size(); i++) {
-                prod_original+="<br> &emsp; &emsp; &emsp;"+gramatica.producciones.get(i);
-            }
-             prod_original+="</html>";
-             ProdLabel.setText(prod_original);
-             
-             GraSinV_Area.append("-------GRAMATICA SIN VICIOS--------\n");
-             for (String produccion: gramatica.ProdSinV) {
-                GraSinV_Area.append(produccion+"\n");
-            }
-            
-            Prim_Area.append("-------PRIMEROS--------\n");
-            for (Map.Entry<String, ArrayList> entry : gramatica.primeros.entrySet()) {
-            Prim_Area.append(entry.getKey()+"="+entry.getValue().toString()+"\n");
-            }
-            
-            Sgte_Area.append("-------SIGUIENTES--------\n");
-            for (Map.Entry<String, ArrayList> entry : gramatica.siguientes.entrySet()) {
-            Sgte_Area.append(entry.getKey()+"="+entry.getValue().toString()+"\n");
-            }
-             
-            
-            for (int i = 0; i < gramatica.Terminales.size()+1; i++) {
-                MTableModel.addColumn(M[0][i]);
-            }
 
-             for (int i = 1; i < gramatica.NoTerminales.size()+1; i++) {
-                 elementos = new ArrayList();
-                 for (int j = 0; j < gramatica.Terminales.size()+1; j++) {
-                     elementos.add(M[i][j]);
-                 }
-                 MTableModel.addRow(elementos.toArray());
-            }
-             
+                for (String produccion : producciones) {
+                    if (produccion.length() != 3) {
+                        produccion.replace("&", "");
+                    }
+                }
 
-        }catch (FileNotFoundException ex) {
-            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+                gramatica = new Gramatica(producciones);
+
+                DefaultTableModel MTableModel = (DefaultTableModel) MTable.getModel();
+                MTableModel.setRowCount(0);
+                MTableModel.setColumnCount(0);
+                DefaultTableModel SegModel = (DefaultTableModel) SegTable.getModel();
+                SegModel.setRowCount(0);
+
+                Prim_Area.setText("");
+                Sgte_Area.setText("");
+                GraSinV_Area.setText("");
+                String[][] M = gramatica.M;
+                ArrayList<String> elementos = new ArrayList();
+
+                String prod_original = "<html>Producciones originales:";
+                for (int i = 0; i < gramatica.producciones.size(); i++) {
+                    prod_original += "<br> &emsp; &emsp; &emsp;" + gramatica.producciones.get(i);
+                }
+                prod_original += "</html>";
+                ProdLabel.setText(prod_original);
+
+                GraSinV_Area.append("-------GRAMATICA SIN VICIOS--------\n");
+                for (String produccion : gramatica.ProdSinV) {
+                    GraSinV_Area.append(produccion + "\n");
+                }
+
+                Prim_Area.append("-------PRIMEROS--------\n");
+                for (Map.Entry<String, ArrayList> entry : gramatica.primeros.entrySet()) {
+                    Prim_Area.append(entry.getKey() + "=" + entry.getValue().toString() + "\n");
+                }
+
+                Sgte_Area.append("-------SIGUIENTES--------\n");
+                for (Map.Entry<String, ArrayList> entry : gramatica.siguientes.entrySet()) {
+                    Sgte_Area.append(entry.getKey() + "=" + entry.getValue().toString() + "\n");
+                }
+
+                for (int i = 0; i < gramatica.Terminales.size() + 1; i++) {
+                    MTableModel.addColumn(M[0][i]);
+                }
+
+                for (int i = 1; i < gramatica.NoTerminales.size() + 1; i++) {
+                    elementos = new ArrayList();
+                    for (int j = 0; j < gramatica.Terminales.size() + 1; j++) {
+                        elementos.add(M[i][j]);
+                    }
+                    MTableModel.addRow(elementos.toArray());
+                }
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
+
     }//GEN-LAST:event_EscogerG_ButtonActionPerformed
 
     private void VerifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerifyButtonActionPerformed
         try {
-            gramatica.reconocerG(VerificarTxtField.getText());
+            DefaultTableModel SegModel = (DefaultTableModel) SegTable.getModel();
+            SegModel.setRowCount(0);
+            gramatica.reconocerG(VerificarTxtField.getText(), SegModel);
+
         } catch (Exception e) {
-            e.printStackTrace();
+            DefaultTableModel SegModel = (DefaultTableModel) SegTable.getModel();
+            SegModel.setRowCount(0);
+            JOptionPane.showMessageDialog(null, "Cadena invalida");
         }
     }//GEN-LAST:event_VerifyButtonActionPerformed
 
@@ -315,6 +377,11 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JButton VerifyButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
