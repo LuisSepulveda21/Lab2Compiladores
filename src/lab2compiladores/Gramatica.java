@@ -211,7 +211,42 @@ public class Gramatica {
                     String NoTerminal = primero.getValue().get(i).toString();
                     primero.getValue().remove(i);
                     ArrayList PrimerosN = new ArrayList(primero.getValue());
+
                     PrimerosN.addAll(this.primeros.get(NoTerminal));
+
+                    if (this.primeros.get(NoTerminal).contains("&")) {
+                        String ProdR = null;
+                        for (String produccion : ProdSinV) {
+                            if (produccion.substring(0, 1).equals(primero.getKey()) && produccion.substring(3, 4).equals(NoTerminal) && produccion.length() != 4) {
+                                ProdR = produccion;
+                            }
+                            if (ProdR != null) {
+                                int i1 = 4;
+                                int i2 = 5;
+                                while (i1 < ProdR.length()) {
+                                    if (this.Terminales.contains(ProdR.substring(i1, i2))) {
+                                        PrimerosN.add(ProdR.substring(i1, i2));
+                                        PrimerosN.removeAll(Collections.singleton("&"));
+                                        i1 = 100;
+                                    } else {
+                                        if (this.NoTerminales.contains(ProdR.substring(i1, i2))) {
+                                            NoTerminal = ProdR.substring(i1, i2);
+                                            PrimerosN.addAll(this.primeros.get(NoTerminal));
+                                            if (this.primeros.get(NoTerminal).contains("&")) {
+                                                i1++;
+                                                i2++;
+                                            } else {
+                                                i1 = 100;
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                    }
 
                     /*      String compvacio = "";
                     
@@ -385,6 +420,28 @@ public class Gramatica {
                             if (this.NoTerminales.contains(produccion.substring(3, 4)) && produccion.substring(0, 1).equals(NT)) {
                                 if (this.primeros.get(produccion.substring(3, 4)).contains(T)) {
                                     M[i + 1][j + 1] = produccion;
+                                } else {
+                                    if (produccion.length() > 4 && this.primeros.get(produccion.substring(3, 4)).contains("&")) {
+                                        int i1 = 4;
+                                        int i2 = 5;
+                                        while (i1 < produccion.length()) {
+                                            String elemento = produccion.substring(i1, i2);
+                                            
+                                            if (elemento.equals(T) || this.primeros.get(elemento).contains(T)) {
+                                                M[i + 1][j + 1] = produccion;
+                                                i1 = 100;
+                                            } else {
+                                                if (this.primeros.get(elemento).contains("&")) {
+                                                    i1++;
+                                                    i2++;
+                                                } else {
+                                                    i1 = 100;
+                                                }
+                                            }
+
+                                        }
+                                    }
+
                                 }
                             }
                         }
@@ -544,19 +601,19 @@ public class Gramatica {
                 entrada += cad[i];
             }
             String mypila = "";
-            
+
             Iterator<String> itr = pila.iterator();
-            while(itr.hasNext()){
-                mypila+=itr.next();
+            while (itr.hasNext()) {
+                mypila += itr.next();
                 System.out.println(mypila);
             }
-            
 
             System.out.println(entrada);
             String X = pila.peek().toString();
             if (this.Terminales.contains(X) || X.equals("$")) {
                 if (X.equals(String.valueOf(cad[index]))) {
                     //extraer X
+                    SegModel.addRow(new Object[]{mypila, entrada, ""});
                     pila.pop();
                     //avanzar a
                     index++;
