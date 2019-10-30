@@ -450,7 +450,7 @@ public class Gramatica {
             }
             if (this.primeros.get(NT).contains("&")) {
                 for (int j = 0; j < col; j++) {
-                    if (this.siguientes.get(NT).contains(M[0][j + 1])) {
+                    if (this.siguientes.get(NT).contains(M[0][j + 1]) && M[i+1][j+1]==null) {
                         M[i + 1][j + 1] = NT + "->" + "&";
                     }
                 }

@@ -33,6 +33,9 @@ public class UI extends javax.swing.JFrame {
     public UI() {
         initComponents();
         MTable.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
+        GraSinV_Area.setEditable(false);
+        Prim_Area.setEditable(false);
+        Sgte_Area.setEditable(false);
     }
 
     /**
